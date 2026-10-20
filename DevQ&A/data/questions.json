@@ -1,0 +1,112 @@
+[
+  {
+    "id": "qa_1792510441295_189u8",
+    "category": "Springboot",
+    "lesson": "JPA",
+    "question": "cehrjfbsr",
+    "answerEn": "ghjbfecshkjrkfdr",
+    "answerKh": "កថហស្េរនកេស្របថហេស្ករបុំេស្មបថន",
+    "createdAt": 1792510441295,
+    "isFavorite": false
+  },
+  {
+    "id": "qa_1792510189363_vyzhb",
+    "category": "Springboot",
+    "lesson": "JPA",
+    "question": "fceijbfserjn",
+    "answerEn": "eisjklrncsrjkefn",
+    "answerKh": "celjkrnrjkfnrijk",
+    "createdAt": 1792510189363,
+    "isFavorite": false
+  },
+  {
+    "id": "qa_1792510116414_ke5qz",
+    "category": "Springboot",
+    "lesson": "JPA",
+    "question": "shfr,jbekr jkjecrc",
+    "answerEn": "serkjnfrlkjcsjkernflkejrs.",
+    "answerKh": "nslekrjcnlkesj.rnf",
+    "createdAt": 1792510116414,
+    "isFavorite": false
+  },
+  {
+    "id": "qa_1792510097674_4el5l",
+    "category": "Backend",
+    "lesson": "JPA",
+    "question": "fkmersff",
+    "answerEn": "serfrjhknr",
+    "answerKh": "hebjkfsernecrk jvejr",
+    "createdAt": 1792510097674,
+    "isFavorite": false
+  },
+  {
+    "id": "qa_1792509615627_djtsy",
+    "category": "Springboot",
+    "lesson": "JPA",
+    "question": "what is JPA",
+    "answerEn": "jwrbf,asjnrakrnjf",
+    "answerKh": "ដុហោិសេកចរនដ្ច",
+    "createdAt": 1792509615627,
+    "isFavorite": false
+  },
+  {
+    "id": "sample-backend-1",
+    "category": "Backend",
+    "lesson": "API Design",
+    "question": "What is an API (Application Programming Interface)?",
+    "answerEn": "An API is a defined set of rules, functions, and protocols that allows different software applications to communicate and exchange data with each other seamlessly.",
+    "answerKh": "API (Application Programming Interface) គឺជាបណ្ដុំនៃក្បួនច្បាប់ និង protocols ដែលអនុញ្ញាតឱ្យកម្មវិធីកុំព្យូទ័រផ្សេងៗគ្នាអាចទាក់ទងគ្នា និងផ្លាស់ប្ដូរទិន្នន័យទៅវិញទៅមកបាន។",
+    "createdAt": 1774000000000,
+    "isFavorite": true
+  },
+  {
+    "id": "sample-backend-2",
+    "category": "Backend",
+    "lesson": "HTTP Protocols",
+    "question": "What is the difference between GET and POST methods in Backend development?",
+    "answerEn": "GET is designed to safely retrieve data from a server without modifying server state. POST is designed to send data to the server to create, submit, or process a new resource.",
+    "answerKh": "GET ត្រូវបានប្រើសម្រាប់ទាញយកទិន្នន័យពី Server ដោយមិនផ្លាស់ប្ដូរស្ថានភាពរបស់ Server ឡើយ។ ចំណែកឯ POST ប្រើសម្រាប់បញ្ជូនទិន្នន័យទៅកាន់ Server ដើម្បីបង្កើត ឬកែច្នៃ resource ថ្មី។",
+    "createdAt": 1774050000000,
+    "isFavorite": false
+  },
+  {
+    "id": "sample-1",
+    "category": "Web Development",
+    "lesson": "Vue 3 Fundamentals",
+    "question": "What is the difference between ref() and reactive() in Vue 3?",
+    "answerEn": "ref() can accept both primitive values (number, string, boolean) and objects, returning a reactive ref object with a .value property. reactive() takes only objects/arrays and returns a deeply reactive proxy directly without needing .value.",
+    "answerKh": "ref() អាចប្រើជាមួយតម្លៃបឋម (លេខ, អក្សរ, boolean) និង objects ដោយវាផ្ដល់ reactive object ដែលមាន .value។ ចំណែកឯ reactive() ប្រើសម្រាប់តែ objects ឬ arrays ប៉ុណ្ណោះ ដោយមិនចាំបាច់ប្រើ .value ឡើយ។",
+    "createdAt": 1774100000000,
+    "isFavorite": false
+  },
+  {
+    "id": "sample-2",
+    "category": "Web Development",
+    "lesson": "CSS & Responsive Design",
+    "question": "What is Responsive Web Design?",
+    "answerEn": "Responsive web design is an approach where web pages automatically detect the user's screen size and orientation to adapt their layout seamlessly across mobile, tablet, and desktop devices.",
+    "answerKh": "Responsive Web Design គឺជាបច្ចេកទេសរចនាគេហទំព័រ ដែលសម្របខ្លួនដោយស្វ័យប្រវត្តិទៅតាមទំហំអេក្រង់ទាំងអស់ ដូចជាទូរស័ព្ទដៃ ថេប្លេត និងកុំព្យូទ័រ ដើម្បីផ្ដល់បទពិសោធន៍មើលល្អបំផុត។",
+    "createdAt": 1774150000000,
+    "isFavorite": true
+  },
+  {
+    "id": "sample-3",
+    "category": "Computer Science",
+    "lesson": "Algorithms",
+    "question": "What is an Algorithm?",
+    "answerEn": "ah jmr",
+    "answerKh": "mh",
+    "createdAt": 1774200000000,
+    "isFavorite": false
+  },
+  {
+    "id": "sample-4",
+    "category": "Database",
+    "lesson": "SQL Basics",
+    "question": "What is a Primary Key in a Database?",
+    "answerEn": "A primary key is a column or a set of columns that uniquely identifies each row in a database table. It cannot contain null values and must contain unique values.",
+    "answerKh": "Primary Key គឺជា column ឬក្រុម column ដែលប្រើសម្រាប់សម្គាល់ជួរទិន្នន័យ (row) នីមួយៗឱ្យដាច់ដោយឡែកពីគេក្នុង table។ វាមិនអាចមានតម្លៃស្ទួន ឬជា Null បានឡើយ។",
+    "createdAt": 1774250000000,
+    "isFavorite": false
+  }
+]

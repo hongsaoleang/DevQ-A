@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="devqa-logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="50%" stop-color="#7c3aed" />
+      <stop offset="100%" stop-color="#ec4899" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#devqa-logo-grad)" />
+  <path d="M14 15h36c2.2 0 4 1.8 4 4v22c0 2.2-1.8 4-4 4H34l-8 6v-6h-12c-2.2 0-4-1.8-4-4V19c0-2.2 1.8-4 4-4z" fill="#ffffff" fill-opacity="0.16"/>
+  <text x="23" y="39" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="24" font-weight="900" fill="#ffffff" text-anchor="middle">Q</text>
+  <circle cx="34" cy="33" r="2.5" fill="#fde047" />
+  <text x="44" y="39" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="22" font-weight="900" fill="#fde047" text-anchor="middle">A</text>
+</svg>
