@@ -108,9 +108,9 @@ function loadLocalItems(): QAItem[] {
 function loadLocalCategories(): string[] {
   try {
     const raw = localStorage.getItem(CATEGORIES_STORAGE_KEY)
-    if (raw) {
+    if (raw !== null) {
       const parsed = JSON.parse(raw)
-      if (Array.isArray(parsed) && parsed.length > 0) {
+      if (Array.isArray(parsed)) {
         return parsed.map((c) => String(c).trim()).filter(Boolean)
       }
     }
@@ -311,6 +311,110 @@ export function useQAStore() {
     return true
   }
 
+  function updateCategory(oldName: string, newName: string): { success: boolean; error?: string } {
+    const oldTrimmed = oldName.trim()
+    const newTrimmed = newName.trim()
+    if (!oldTrimmed || !newTrimmed) {
+      return { success: false, error: 'Category name cannot be empty.' }
+    }
+    if (oldTrimmed.toLowerCase() === newTrimmed.toLowerCase()) {
+      const idx = customCategories.value.findIndex((c) => c.toLowerCase() === oldTrimmed.toLowerCase())
+      if (idx !== -1) {
+        customCategories.value[idx] = newTrimmed
+      }
+      items.value.forEach((it) => {
+        if (it.category.trim().toLowerCase() === oldTrimmed.toLowerCase()) {
+          it.category = newTrimmed
+        }
+      })
+      try {
+        localStorage.setItem(CATEGORIES_STORAGE_KEY, JSON.stringify(customCategories.value))
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(items.value))
+      } catch {}
+      pushCategoriesToRemote(customCategories.value)
+      pushToRemote(items.value)
+      return { success: true }
+    }
+
+    const exists = categories.value.some((c) => c.toLowerCase() === newTrimmed.toLowerCase())
+    if (exists) {
+      return { success: false, error: 'A category with this name already exists.' }
+    }
+
+    // Update in customCategories
+    const idx = customCategories.value.findIndex((c) => c.toLowerCase() === oldTrimmed.toLowerCase())
+    if (idx !== -1) {
+      customCategories.value[idx] = newTrimmed
+    } else {
+      customCategories.value.push(newTrimmed)
+    }
+
+    // Deduplicate
+    customCategories.value = Array.from(new Set(customCategories.value.map((c) => c.trim()).filter(Boolean)))
+
+    // Update items
+    items.value.forEach((it) => {
+      if (it.category.trim().toLowerCase() === oldTrimmed.toLowerCase()) {
+        it.category = newTrimmed
+      }
+    })
+
+    // Update pinned default category in localStorage if it was oldName
+    try {
+      const DEFAULT_CATEGORY_KEY = 'devqa_default_category_choice'
+      const saved = localStorage.getItem(DEFAULT_CATEGORY_KEY)
+      if (saved && saved.trim().toLowerCase() === oldTrimmed.toLowerCase()) {
+        localStorage.setItem(DEFAULT_CATEGORY_KEY, newTrimmed)
+      }
+    } catch {}
+
+    try {
+      localStorage.setItem(CATEGORIES_STORAGE_KEY, JSON.stringify(customCategories.value))
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items.value))
+    } catch {}
+
+    pushCategoriesToRemote(customCategories.value)
+    pushToRemote(items.value)
+
+    return { success: true }
+  }
+
+  function deleteCategory(categoryName: string): { success: boolean; error?: string } {
+    const trimmed = categoryName.trim()
+    if (!trimmed) {
+      return { success: false, error: 'Category name is required.' }
+    }
+
+    // Remove from customCategories
+    customCategories.value = customCategories.value.filter(
+      (c) => c.trim().toLowerCase() !== trimmed.toLowerCase()
+    )
+
+    // Remove questions in this category
+    items.value = items.value.filter(
+      (it) => it.category.trim().toLowerCase() !== trimmed.toLowerCase()
+    )
+
+    // Clear pinned default category in localStorage if it was this category
+    try {
+      const DEFAULT_CATEGORY_KEY = 'devqa_default_category_choice'
+      const saved = localStorage.getItem(DEFAULT_CATEGORY_KEY)
+      if (saved && saved.trim().toLowerCase() === trimmed.toLowerCase()) {
+        localStorage.removeItem(DEFAULT_CATEGORY_KEY)
+      }
+    } catch {}
+
+    try {
+      localStorage.setItem(CATEGORIES_STORAGE_KEY, JSON.stringify(customCategories.value))
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items.value))
+    } catch {}
+
+    pushCategoriesToRemote(customCategories.value)
+    pushToRemote(items.value)
+
+    return { success: true }
+  }
+
   const lessons = computed(() => {
     const set = new Set<string>()
     items.value.forEach((item) => {
@@ -430,6 +534,8 @@ export function useQAStore() {
     categories,
     customCategories,
     addCategory,
+    updateCategory,
+    deleteCategory,
     lessons,
     getLessonsForCategory,
     addItem,
