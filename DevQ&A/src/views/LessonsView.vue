@@ -182,19 +182,7 @@ function handleBulkImport(items: { command: string; whatItDoes: string; practice
     <!-- Top Action Bar -->
     <div class="page-topbar">
       <div class="topbar-left">
-        <div class="page-heading">
-          <h1 class="page-title">Command Lessons & Practice</h1>
-          <div class="page-badges">
-            <span class="badge badge-subtle">{{ lessons.length }} Lesson{{ lessons.length === 1 ? '' : 's' }}</span>
-            <div class="sync-badge" :title="syncStatus === 'synced' ? 'Synchronized across devices' : 'Connecting to storage...'">
-              <span class="sync-dot" :class="syncStatus"></span>
-              <span>{{ syncStatus === 'synced' ? 'Synced' : 'Local' }}</span>
-            </div>
-          </div>
-        </div>
-        <p class="page-description">
-          Create structured lessons with explanations of why commands are used near each other, along with interactive hands-on typing practice.
-        </p>
+        <h1 class="page-title">Command Lessons</h1>
       </div>
 
       <div class="topbar-right">
@@ -299,14 +287,14 @@ function handleBulkImport(items: { command: string; whatItDoes: string; practice
                 <line x1="12" y1="8" x2="12.01" y2="8"/>
               </svg>
             </div>
-            <span class="why-heading">Why We Use These Commands Together</span>
+            <span class="why-heading">Why We Use It</span>
           </div>
           <button class="btn-text-edit" @click="openEditLessonModal(currentLesson)">
             Edit Notes
           </button>
         </div>
         <p class="why-body">
-          {{ currentLesson.whyWeUseIt || 'No lesson text added yet. Click Edit Lesson to write an explanation of why these commands are used together.' }}
+          {{ currentLesson.whyWeUseIt || 'No lesson notes added yet.' }}
         </p>
       </div>
 
@@ -344,8 +332,7 @@ function handleBulkImport(items: { command: string; whatItDoes: string; practice
       <div class="table-container">
         <div class="table-top-controls">
           <div class="table-title-group">
-            <h3 class="table-title">Command Reference & Interactive Practice</h3>
-            <span class="table-subtitle">Practice typing each command in the right column</span>
+            <h3 class="table-title">Commands & Practice</h3>
           </div>
           <div class="table-buttons">
             <button class="btn btn-secondary btn-sm" @click="showBulkModal = true">
