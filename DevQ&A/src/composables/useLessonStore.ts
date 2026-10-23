@@ -433,6 +433,42 @@ export function useLessonStore() {
     return count
   }
 
+  function importLessons(rawList: any[]): { success: boolean; count: number; error?: string } {
+    try {
+      if (!Array.isArray(rawList)) {
+        return { success: false, count: 0, error: 'Lessons data must be an array.' }
+      }
+      const validated: LessonItem[] = []
+      for (const raw of rawList) {
+        const item = normalizeLesson(raw)
+        if (item) validated.push(item)
+      }
+      if (validated.length === 0) {
+        return { success: false, count: 0, error: 'No valid lessons found in JSON.' }
+      }
+      lessons.value = validated
+      if (validated.length > 0 && !validated.some((l) => l.id === currentLessonId.value)) {
+        currentLessonId.value = validated[0]?.id || ''
+      }
+      pushToRemote(validated)
+      return { success: true, count: validated.length }
+    } catch (e: any) {
+      return { success: false, count: 0, error: e?.message || 'Failed to import lessons.' }
+    }
+  }
+
+  function resetLessonsToDefaults() {
+    lessons.value = JSON.parse(JSON.stringify(DEFAULT_SAMPLE_LESSONS))
+    currentLessonId.value = lessons.value[0]?.id || ''
+    pushToRemote(lessons.value)
+  }
+
+  function clearAllLessons() {
+    lessons.value = []
+    currentLessonId.value = ''
+    pushToRemote([])
+  }
+
   return {
     lessons,
     currentLessonId,
@@ -446,6 +482,9 @@ export function useLessonStore() {
     updateCommand,
     deleteCommand,
     parseBulkText,
-    addBulkCommands
+    addBulkCommands,
+    importLessons,
+    resetLessonsToDefaults,
+    clearAllLessons
   }
 }

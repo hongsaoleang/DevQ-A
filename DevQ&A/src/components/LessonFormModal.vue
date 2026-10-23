@@ -18,7 +18,6 @@ const { categories } = useQAStore()
 
 const name = ref('')
 const category = ref('')
-const whyWeUseIt = ref('')
 const errorMessage = ref('')
 
 watch(
@@ -28,11 +27,9 @@ watch(
       if (props.editLesson) {
         name.value = props.editLesson.name
         category.value = props.editLesson.category || (categories.value[0] || 'General')
-        whyWeUseIt.value = props.editLesson.whyWeUseIt || ''
       } else {
         name.value = ''
         category.value = categories.value[0] || 'General'
-        whyWeUseIt.value = ''
       }
       errorMessage.value = ''
     }
@@ -42,7 +39,6 @@ watch(
 
 function handleSubmit() {
   const trimmedName = name.value.trim()
-  const trimmedWhy = whyWeUseIt.value.trim()
 
   if (!trimmedName) {
     errorMessage.value = 'Please provide a lesson name.'
@@ -52,7 +48,7 @@ function handleSubmit() {
   emit('save', {
     name: trimmedName,
     category: category.value || 'General',
-    whyWeUseIt: trimmedWhy
+    whyWeUseIt: props.editLesson?.whyWeUseIt || ''
   })
 }
 </script>
@@ -71,7 +67,7 @@ function handleSubmit() {
           </div>
           <div>
             <h3 class="modal-title">{{ editLesson ? 'Edit Lesson' : 'Set Up New Lesson' }}</h3>
-            <p class="modal-subtitle">Define the lesson name, category, and why we use it</p>
+            <p class="modal-subtitle">Define the lesson name and category</p>
           </div>
         </div>
         <button class="btn-close" @click="emit('close')" aria-label="Close">
@@ -109,19 +105,6 @@ function handleSubmit() {
               <option value="General">General</option>
             </select>
           </div>
-        </div>
-
-        <!-- Why we use it / Text for lesson -->
-        <div class="form-group">
-          <div class="label-with-hint">
-            <label class="form-label">Lesson Overview & Why We Use It <span class="hint-text">(Context for these commands)</span></label>
-          </div>
-          <textarea
-            v-model="whyWeUseIt"
-            class="form-textarea"
-            rows="4"
-            placeholder="Explain why we use these commands together and when to use them near each other (e.g. 'Terminal navigation commands let you traverse directories, inspect folder contents, and manipulate files without a GUI...')"
-          ></textarea>
         </div>
       </div>
 

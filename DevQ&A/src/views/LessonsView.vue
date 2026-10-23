@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { ref, computed, nextTick } from 'vue'
+import { ref } from 'vue'
 import { useLessonStore } from '../composables/useLessonStore'
 import type { LessonItem, CommandItem } from '../types/lesson'
 import { getCategoryColor } from '../utils/colors'
 import LessonFormModal from '../components/LessonFormModal.vue'
 import CommandFormModal from '../components/CommandFormModal.vue'
-import BulkCommandImportModal from '../components/BulkCommandImportModal.vue'
 
 const {
   lessons,
@@ -18,8 +17,7 @@ const {
   deleteLesson,
   addCommand,
   updateCommand,
-  deleteCommand,
-  addBulkCommands
+  deleteCommand
 } = useLessonStore()
 
 // Practice input values mapped by command id
@@ -33,7 +31,6 @@ const editingLesson = ref<LessonItem | null>(null)
 const showCommandModal = ref(false)
 const editingCommand = ref<CommandItem | null>(null)
 
-const showBulkModal = ref(false)
 const showDeleteConfirm = ref(false)
 const lessonToDelete = ref<LessonItem | null>(null)
 
@@ -58,25 +55,6 @@ function isPracticeTypo(cmd: CommandItem): boolean {
   const target = (cmd.practice || cmd.command).trim()
   if (!input) return false
   return !target.startsWith(input)
-}
-
-const completedCount = computed(() => {
-  if (!currentLesson.value) return 0
-  return currentLesson.value.commands.filter((c) => isPracticeCorrect(c)).length
-})
-
-const totalCount = computed(() => {
-  return currentLesson.value?.commands.length || 0
-})
-
-const progressPercent = computed(() => {
-  if (totalCount.value === 0) return 0
-  return Math.round((completedCount.value / totalCount.value) * 100)
-})
-
-function resetPractice() {
-  practiceInputs.value = {}
-  revealedHints.value = {}
 }
 
 function toggleHint(cmdId: string) {
@@ -167,13 +145,6 @@ function handleSaveCommand(payload: { command: string; whatItDoes: string; pract
 function handleDeleteCommand(cmdId: string) {
   if (!currentLesson.value) return
   deleteCommand(currentLesson.value.id, cmdId)
-}
-
-// Bulk Import
-function handleBulkImport(items: { command: string; whatItDoes: string; practice: string; notes?: string }[]) {
-  if (!currentLesson.value) return
-  addBulkCommands(currentLesson.value.id, items)
-  showBulkModal.value = false
 }
 </script>
 
@@ -276,58 +247,6 @@ function handleBulkImport(items: { command: string; whatItDoes: string; practice
         </div>
       </div>
 
-      <!-- Why We Use It / Lesson Text Callout -->
-      <div class="why-use-it-card">
-        <div class="why-header">
-          <div class="why-title-left">
-            <div class="why-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                <circle cx="12" cy="12" r="10"/>
-                <line x1="12" y1="16" x2="12" y2="12"/>
-                <line x1="12" y1="8" x2="12.01" y2="8"/>
-              </svg>
-            </div>
-            <span class="why-heading">Why We Use It</span>
-          </div>
-          <button class="btn-text-edit" @click="openEditLessonModal(currentLesson)">
-            Edit Notes
-          </button>
-        </div>
-        <p class="why-body">
-          {{ currentLesson.whyWeUseIt || 'No lesson notes added yet.' }}
-        </p>
-      </div>
-
-      <!-- Practice Progress Tracker Bar -->
-      <div class="practice-tracker-bar">
-        <div class="tracker-info">
-          <span class="tracker-label">Practice Mastery</span>
-          <span class="tracker-score">
-            <strong>{{ completedCount }}</strong> of {{ totalCount }} completed ({{ progressPercent }}%)
-          </span>
-        </div>
-        <div class="progress-bar-bg">
-          <div
-            class="progress-bar-fill"
-            :style="{ width: progressPercent + '%' }"
-            :class="{ full: progressPercent === 100 }"
-          ></div>
-        </div>
-        <div class="tracker-actions">
-          <span class="keyboard-tip">
-            <kbd>Enter</kbd> advances to next practice row
-          </span>
-          <button
-            v-if="completedCount > 0"
-            class="btn-reset"
-            @click="resetPractice"
-            title="Reset typing practice inputs"
-          >
-            Reset Practice
-          </button>
-        </div>
-      </div>
-
       <!-- Side-by-Side Commands Table -->
       <div class="table-container">
         <div class="table-top-controls">
@@ -335,15 +254,6 @@ function handleBulkImport(items: { command: string; whatItDoes: string; practice
             <h3 class="table-title">Commands & Practice</h3>
           </div>
           <div class="table-buttons">
-            <button class="btn btn-secondary btn-sm" @click="showBulkModal = true">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                <polyline points="14 2 14 8 20 8"/>
-                <line x1="16" y1="13" x2="8" y2="13"/>
-                <line x1="16" y1="17" x2="8" y2="17"/>
-              </svg>
-              <span>Bulk Import Text</span>
-            </button>
             <button class="btn btn-primary btn-sm" @click="openAddCommandModal">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <line x1="12" y1="5" x2="12" y2="19"/>
@@ -357,8 +267,7 @@ function handleBulkImport(items: { command: string; whatItDoes: string; practice
         <div v-if="currentLesson.commands.length === 0" class="empty-table-card">
           <p>No commands in this lesson yet.</p>
           <div class="empty-btns">
-            <button class="btn btn-primary btn-sm" @click="openAddCommandModal">Add Single Command</button>
-            <button class="btn btn-secondary btn-sm" @click="showBulkModal = true">Paste Multiple Commands</button>
+            <button class="btn btn-primary btn-sm" @click="openAddCommandModal">Add Command</button>
           </div>
         </div>
 
@@ -501,13 +410,6 @@ function handleBulkImport(items: { command: string; whatItDoes: string; practice
       :edit-command="editingCommand"
       @close="showCommandModal = false"
       @save="handleSaveCommand"
-    />
-
-    <BulkCommandImportModal
-      :is-open="showBulkModal"
-      :lesson-name="currentLesson?.name || ''"
-      @close="showBulkModal = false"
-      @import="handleBulkImport"
     />
 
     <!-- Delete Confirmation Modal -->
@@ -785,143 +687,6 @@ function handleBulkImport(items: { command: string; whatItDoes: string; practice
   display: flex;
   align-items: center;
   gap: 0.5rem;
-}
-
-/* Why We Use It Box */
-.why-use-it-card {
-  background: linear-gradient(135deg, rgba(79, 70, 229, 0.05) 0%, rgba(139, 92, 246, 0.03) 100%);
-  border: 1px solid rgba(79, 70, 229, 0.15);
-  border-left: 4px solid var(--primary);
-  border-radius: var(--radius-lg);
-  padding: 1rem 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.why-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.why-title-left {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.why-icon {
-  color: var(--primary);
-  display: flex;
-}
-
-.why-heading {
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--primary-text);
-}
-
-.btn-text-edit {
-  background: none;
-  border: none;
-  color: var(--primary);
-  font-size: 0.775rem;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
-}
-
-.btn-text-edit:hover {
-  text-decoration: underline;
-}
-
-.why-body {
-  margin: 0;
-  font-size: 0.925rem;
-  line-height: 1.55;
-  color: var(--text-main);
-}
-
-/* Practice Progress Tracker Bar */
-.practice-tracker-bar {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 0.85rem 1.15rem;
-}
-
-.tracker-info {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.825rem;
-}
-
-.tracker-label {
-  font-weight: 700;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.tracker-score {
-  color: var(--text-main);
-}
-
-.progress-bar-bg {
-  width: 100%;
-  height: 8px;
-  background: var(--border-color);
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.progress-bar-fill {
-  height: 100%;
-  background: var(--primary-gradient);
-  border-radius: 4px;
-  transition: width 0.3s ease;
-}
-
-.progress-bar-fill.full {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-}
-
-.tracker-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.775rem;
-  color: var(--text-muted);
-}
-
-.keyboard-tip kbd {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: 3px;
-  padding: 0.1rem 0.35rem;
-  font-size: 0.725rem;
-  font-family: var(--font-mono);
-  box-shadow: 0 1px 1px rgba(0,0,0,0.06);
-}
-
-.btn-reset {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 0.775rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.btn-reset:hover {
-  color: var(--primary);
-  text-decoration: underline;
 }
 
 /* Table Controls */

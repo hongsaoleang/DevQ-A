@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useQAStore } from '../composables/useQAStore'
+import { useLessonStore } from '../composables/useLessonStore'
 
 const props = defineProps<{
   isOpen: boolean
@@ -10,14 +11,21 @@ const emit = defineEmits<{
   (e: 'close'): void
 }>()
 
-const { items, exportToJson, importFromJson, resetToDefaults, clearAll } = useQAStore()
+const { items, customCategories, addCategory, importFromJson, resetToDefaults, clearAll } = useQAStore()
+const { lessons, importLessons, resetLessonsToDefaults, clearAllLessons } = useLessonStore()
 
 const pastedJson = ref('')
 const importStatus = ref<{ success?: boolean; message?: string }>({})
 
 function handleDownloadJson() {
-  const data = exportToJson()
-  const blob = new Blob([data], { type: 'application/json' })
+  const backupData = {
+    version: 2,
+    exportedAt: new Date().toISOString(),
+    questions: items.value,
+    lessons: lessons.value,
+    categories: customCategories.value
+  }
+  const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
@@ -50,34 +58,100 @@ function handlePasteImport() {
 }
 
 function processImport(jsonString: string) {
-  const res = importFromJson(jsonString)
-  if (res.success) {
-    importStatus.value = {
-      success: true,
-      message: `Successfully imported ${res.count} questions!`
+  try {
+    const parsed = JSON.parse(jsonString)
+    let questionsCount = 0
+    let lessonsCount = 0
+
+    // 1. If it's a version 2 backup object or has questions / lessons keys
+    if (!Array.isArray(parsed) && typeof parsed === 'object' && parsed !== null) {
+      if (Array.isArray(parsed.questions) || Array.isArray(parsed.items)) {
+        const qList = parsed.questions || parsed.items
+        const resQ = importFromJson(JSON.stringify(qList))
+        if (resQ.success) questionsCount = resQ.count
+      }
+      if (Array.isArray(parsed.lessons)) {
+        const resL = importLessons(parsed.lessons)
+        if (resL.success) lessonsCount = resL.count
+      }
+      if (Array.isArray(parsed.categories)) {
+        parsed.categories.forEach((cat: string) => {
+          if (cat && typeof cat === 'string') addCategory(cat)
+        })
+      }
+
+      if (questionsCount === 0 && lessonsCount === 0) {
+        importStatus.value = { success: false, message: 'No valid questions or lessons found in JSON backup.' }
+        return
+      }
+
+      const parts: string[] = []
+      if (questionsCount > 0) parts.push(`${questionsCount} question${questionsCount === 1 ? '' : 's'}`)
+      if (lessonsCount > 0) parts.push(`${lessonsCount} command lesson${lessonsCount === 1 ? '' : 's'}`)
+
+      importStatus.value = {
+        success: true,
+        message: `Successfully restored ${parts.join(' and ')}!`
+      }
+      pastedJson.value = ''
+      setTimeout(() => {
+        emit('close')
+      }, 1200)
+      return
     }
-    pastedJson.value = ''
-    setTimeout(() => {
-      emit('close')
-    }, 1200)
-  } else {
-    importStatus.value = {
-      success: false,
-      message: res.error || 'Failed to import JSON.'
+
+    // 2. If it's an array: could be questions array (previous format) or lessons array
+    if (Array.isArray(parsed)) {
+      if (parsed.length > 0 && ('commands' in parsed[0] || 'whyWeUseIt' in parsed[0])) {
+        const resL = importLessons(parsed)
+        if (resL.success) {
+          importStatus.value = { success: true, message: `Successfully imported ${resL.count} command lessons!` }
+          pastedJson.value = ''
+          setTimeout(() => emit('close'), 1200)
+        } else {
+          importStatus.value = { success: false, message: resL.error || 'Failed to import lessons.' }
+        }
+        return
+      }
+
+      // Default array: questions (previous format)
+      const resQ = importFromJson(jsonString)
+      if (resQ.success) {
+        importStatus.value = {
+          success: true,
+          message: `Successfully imported ${resQ.count} questions!`
+        }
+        pastedJson.value = ''
+        setTimeout(() => {
+          emit('close')
+        }, 1200)
+      } else {
+        importStatus.value = {
+          success: false,
+          message: resQ.error || 'Failed to import JSON.'
+        }
+      }
+      return
     }
+
+    importStatus.value = { success: false, message: 'Invalid JSON format. Expected JSON array or backup object.' }
+  } catch (err: any) {
+    importStatus.value = { success: false, message: err?.message || 'Invalid JSON format.' }
   }
 }
 
 function handleResetDefaults() {
-  if (confirm('This will restore the original sample questions. Proceed?')) {
+  if (confirm('This will restore the original sample questions and command lessons. Proceed?')) {
     resetToDefaults()
+    resetLessonsToDefaults()
     emit('close')
   }
 }
 
 function handleClearAll() {
-  if (confirm('Warning: This will delete ALL questions saved on this device. Proceed?')) {
+  if (confirm('Warning: This will delete ALL questions and command lessons saved on this device. Proceed?')) {
     clearAll()
+    clearAllLessons()
     emit('close')
   }
 }
@@ -90,7 +164,7 @@ function handleClearAll() {
         <div class="header-titles">
           <h2 class="modal-title">Data Backup & Restore</h2>
           <p class="modal-subtitle">
-            All your questions and answers are stored securely in your browser's local storage.
+            All your questions and command lessons are stored securely and synchronized.
           </p>
         </div>
         <button class="btn btn-ghost close-btn" @click="emit('close')" aria-label="Close modal">
@@ -121,7 +195,7 @@ function handleClearAll() {
             </svg>
             Export Backup
           </h3>
-          <p class="section-desc">Download a backup JSON file of all your {{ items.length }} questions.</p>
+          <p class="section-desc">Download a backup JSON file of all your data ({{ items.length }} questions, {{ lessons.length }} command lessons).</p>
           <button class="btn btn-primary" @click="handleDownloadJson">
             Download JSON Backup
           </button>
@@ -135,7 +209,7 @@ function handleClearAll() {
               <polyline points="17 8 12 3 7 8"/>
               <line x1="12" y1="3" x2="12" y2="15"/>
             </svg>
-            Import Questions
+            Import Data
           </h3>
           <p class="section-desc">Upload a previously saved JSON file or paste JSON below.</p>
 
@@ -153,7 +227,7 @@ function handleClearAll() {
             <textarea
               v-model="pastedJson"
               class="paste-textarea"
-              placeholder="Or paste JSON array here..."
+              placeholder="Or paste JSON array / backup object here..."
               rows="3"
             ></textarea>
             <button
@@ -169,10 +243,10 @@ function handleClearAll() {
         <!-- Reset & Clear Section -->
         <div class="danger-section">
           <button class="btn btn-ghost" @click="handleResetDefaults">
-            Restore Sample Questions
+            Restore Sample Data
           </button>
           <button class="btn btn-danger-ghost" @click="handleClearAll">
-            Delete All Questions
+            Delete All Data
           </button>
         </div>
       </div>
