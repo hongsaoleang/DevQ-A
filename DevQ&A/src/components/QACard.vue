@@ -428,4 +428,20 @@ html.dark .khmer-font {
   color: var(--danger);
   border-color: var(--danger-light);
 }
+
+@media (max-width: 680px) {
+  .qa-card {
+    padding: 0.85rem 0.85rem;
+    gap: 0.6rem;
+  }
+  .card-question {
+    font-size: 0.95rem;
+  }
+  .lang-text {
+    font-size: 0.85rem;
+  }
+  .khmer-text {
+    font-size: 0.88rem;
+  }
+}
 </style>

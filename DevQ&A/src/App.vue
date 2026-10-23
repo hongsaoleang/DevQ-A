@@ -107,6 +107,13 @@ function handleSaved(savedItem: QAItem) {
   gap: 2rem;
 }
 
+@media (max-width: 680px) {
+  .main-container {
+    padding: 0.75rem 0.5rem 4.5rem;
+    gap: 0.85rem;
+  }
+}
+
 /* Mobile Floating Action Button */
 .mobile-fab {
   display: flex;

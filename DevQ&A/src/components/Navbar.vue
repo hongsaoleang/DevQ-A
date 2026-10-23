@@ -456,6 +456,47 @@ html.dark .sync-status-badge {
   border-top: 1px solid var(--border-color);
 }
 
+@media (max-width: 680px) {
+  .navbar-container {
+    padding: 0.6rem 0.75rem;
+    gap: 0.5rem;
+  }
+  .brand {
+    gap: 0.55rem;
+  }
+  .brand-icon {
+    width: 32px;
+    height: 32px;
+  }
+  .brand-icon svg {
+    width: 17px;
+    height: 17px;
+  }
+  .brand-title {
+    font-size: 1.1rem;
+  }
+  .brand-badge {
+    padding: 0.15rem 0.45rem;
+    font-size: 0.7rem;
+  }
+  .sync-status-badge {
+    padding: 0.12rem 0.4rem;
+    font-size: 0.66rem;
+  }
+  .mobile-add-btn {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    padding: 0.35rem;
+  }
+  .icon-btn {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    padding: 0.35rem;
+  }
+}
+
 @media (min-width: 768px) {
   .desktop-nav {
     display: flex;
