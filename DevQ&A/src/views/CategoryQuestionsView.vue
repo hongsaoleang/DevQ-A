@@ -896,36 +896,4 @@ html.dark .fav-opt.active {
   border-color: #dc2626;
   transform: translateY(-1px);
 }
-
-@media (max-width: 680px) {
-  .category-questions-view {
-    gap: 0.85rem;
-  }
-  .category-hero {
-    padding: 0.85rem;
-    gap: 0.65rem;
-  }
-  .hero-category-title {
-    font-size: 1.25rem;
-  }
-  .controls-row {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.5rem;
-  }
-  .filter-search-box {
-    width: 100%;
-  }
-  .filter-search-input {
-    width: 100%;
-    font-size: 0.82rem;
-  }
-  .filter-actions {
-    width: 100%;
-    justify-content: space-between;
-  }
-  .questions-grid {
-    gap: 0.65rem;
-  }
-}
 </style>

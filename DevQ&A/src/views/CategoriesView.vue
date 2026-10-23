@@ -855,36 +855,4 @@ const emit = defineEmits<{
   border-color: #dc2626;
   transform: translateY(-1px);
 }
-
-@media (max-width: 680px) {
-  .categories-view-page {
-    gap: 0.85rem;
-  }
-  .page-title {
-    font-size: 1.25rem;
-  }
-  .header-actions {
-    width: 100%;
-    gap: 0.5rem;
-  }
-  .search-cat-box {
-    flex: 1;
-    min-width: 0;
-  }
-  .search-cat-input {
-    width: 100%;
-    font-size: 0.82rem;
-    padding: 0.45rem 0.65rem 0.45rem 2rem;
-  }
-  .category-cards-grid {
-    gap: 0.65rem;
-  }
-  .category-card {
-    padding: 0.85rem;
-    gap: 0.6rem;
-  }
-  .cat-title {
-    font-size: 1.05rem;
-  }
-}
 </style>
