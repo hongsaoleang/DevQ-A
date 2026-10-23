@@ -252,6 +252,13 @@ function handleDeleteCommand(cmdId: string) {
         <div class="table-top-controls">
           <div class="table-title-group">
             <h3 class="table-title">Commands & Practice</h3>
+            <span class="mobile-swipe-hint">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+              <span>Swipe table</span>
+            </span>
           </div>
           <div class="table-buttons">
             <button class="btn btn-primary btn-sm" @click="openAddCommandModal">
@@ -705,11 +712,22 @@ function handleDeleteCommand(cmdId: string) {
   padding-top: 0.5rem;
 }
 
+.table-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
 .table-title {
   margin: 0;
   font-size: 1.05rem;
   font-weight: 700;
   color: var(--text-main);
+}
+
+.mobile-swipe-hint {
+  display: none;
 }
 
 .table-subtitle {
@@ -1105,19 +1123,211 @@ function handleDeleteCommand(cmdId: string) {
 
 @media (max-width: 768px) {
   .page-topbar {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .topbar-right {
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
   }
+
+  .page-title {
+    font-size: 1.25rem;
+  }
+
   .topbar-right .btn {
-    width: 100%;
+    width: auto;
+    padding: 0.42rem 0.85rem;
+    font-size: 0.82rem;
+    min-height: 36px;
   }
-  .th-command { width: 30%; }
-  .th-does { width: 35%; }
-  .th-practice { width: 35%; }
-  .th-actions { display: none; }
-  .td-actions { display: none; }
+
+  /* Tabs */
+  .lesson-tabs-scroll {
+    gap: 0.35rem;
+  }
+
+  .lesson-tab-btn {
+    padding: 0.38rem 0.7rem;
+    font-size: 0.8rem;
+  }
+
+  .lesson-tab-add {
+    padding: 0.38rem 0.7rem;
+    font-size: 0.8rem;
+  }
+
+  /* Main Card */
+  .lesson-main-card {
+    padding: 1rem 0.85rem;
+    border-radius: var(--radius-lg);
+    gap: 0.85rem;
+  }
+
+  .lesson-header {
+    gap: 0.5rem;
+  }
+
+  .active-lesson-title {
+    font-size: 1.15rem;
+  }
+
+  .category-tag {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+  }
+
+  .commands-stat {
+    font-size: 0.75rem;
+  }
+
+  .lesson-actions .btn {
+    padding: 0.32rem 0.6rem;
+    font-size: 0.78rem;
+    min-height: 32px;
+  }
+
+  /* Table Controls */
+  .table-top-controls {
+    padding-top: 0;
+    gap: 0.5rem;
+  }
+
+  .table-title {
+    font-size: 0.95rem;
+  }
+
+  .mobile-swipe-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--primary);
+    background: var(--primary-light);
+    padding: 0.15rem 0.45rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .table-buttons .btn {
+    padding: 0.32rem 0.65rem;
+    font-size: 0.78rem;
+    min-height: 32px;
+  }
+
+  /* Smooth-scrolling table with sticky Command column */
+  .table-responsive {
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .commands-table {
+    min-width: 550px;
+  }
+
+  .commands-table th {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  .commands-table td {
+    padding: 0.65rem 0.75rem;
+  }
+
+  /* Sticky first column (Command) on mobile */
+  .th-command,
+  .td-command {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: var(--bg-surface);
+    box-shadow: 2px 0 6px -1px rgba(0, 0, 0, 0.08);
+    width: 145px;
+    min-width: 145px;
+    max-width: 155px;
+  }
+
+  .th-command {
+    background: var(--bg-subtle);
+    z-index: 3;
+  }
+
+  .command-row:hover .td-command {
+    background: var(--bg-subtle);
+  }
+
+  .command-row.row-matched .td-command {
+    background: #ecfdf5;
+  }
+
+  html.dark .command-row.row-matched .td-command {
+    background: #064e3b;
+  }
+
+  .command-badge-wrapper {
+    padding: 0.2rem 0.45rem;
+    gap: 0.35rem;
+  }
+
+  .command-code {
+    font-size: 0.8rem;
+  }
+
+  .cmd-note {
+    font-size: 0.7rem;
+    margin-top: 0.2rem;
+  }
+
+  .th-does,
+  .td-does {
+    width: 180px;
+    min-width: 180px;
+  }
+
+  .what-it-does-text {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .th-practice,
+  .td-practice {
+    width: 165px;
+    min-width: 165px;
+  }
+
+  .practice-input-wrap {
+    height: 34px;
+  }
+
+  .practice-prompt-prefix {
+    padding-left: 0.5rem;
+    font-size: 0.78rem;
+  }
+
+  .practice-input {
+    font-size: 0.78rem;
+    padding: 0.3rem 0.4rem;
+  }
+
+  .practice-badge-success {
+    padding: 0 0.45rem;
+  }
+
+  .btn-hint {
+    padding: 0 0.45rem;
+  }
+
+  .th-actions,
+  .td-actions {
+    width: 60px;
+    min-width: 60px;
+    display: table-cell !important;
+  }
+
+  .btn-icon {
+    padding: 0.25rem;
+    width: 28px;
+    height: 28px;
+  }
 }
 </style>
