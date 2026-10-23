@@ -21,6 +21,10 @@ const isHomeActive = computed(() => {
   return route.path === '/' || route.name === 'categories' || route.name === 'category-questions'
 })
 
+const isLessonsActive = computed(() => {
+  return route.path === '/lessons' || route.name === 'lessons'
+})
+
 const isStudyActive = computed(() => {
   return route.path === '/study' || route.name === 'study'
 })
@@ -76,6 +80,18 @@ function handleDataClick() {
             <rect width="7" height="7" x="3" y="14" rx="1"/>
           </svg>
           <span>Category Board</span>
+        </button>
+
+        <button
+          class="nav-tab"
+          :class="{ active: isLessonsActive }"
+          @click="navigateTo('/lessons')"
+        >
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <polyline points="4 17 10 11 4 5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>Command Lessons</span>
         </button>
 
         <button
@@ -164,6 +180,18 @@ function handleDataClick() {
             <rect width="7" height="7" x="3" y="14" rx="1"/>
           </svg>
           <span>Category Board</span>
+        </button>
+
+        <button
+          class="mobile-nav-item"
+          :class="{ active: isLessonsActive }"
+          @click="navigateTo('/lessons')"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4 17 10 11 4 5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>Command Lessons</span>
         </button>
 
         <button

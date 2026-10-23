@@ -19,6 +19,12 @@ A responsive Question & Answer website built with Vue 3 and TypeScript that allo
   - Adapts to your input (if you input only Khmer, only English, or both).
 - **Interactive Flashcard Study Mode**:
   - Test yourself with flip cards (`Space` / `Enter` to flip, `Arrow` keys to navigate).
+- **Command Lessons & Interactive Practice**:
+  - Set up lessons with custom name, category, and an explanation of **"Why we use these commands together"**.
+  - Side-by-side reference table: **Command**, **What it does**, and **Hands-on Practice**.
+  - Interactive typing practice field with instant validation, keyboard advancement on `Enter`, and hint peek.
+  - Bulk text importer for pasting multiple lines (e.g. `pwd    Show current directory    pwd`).
+  - Real-time synchronization across devices backed by `data/lessons.json`.
 - **Subtle, Clean Modern UI**:
   - Clean slight rounding (no big bubble pills).
   - Dynamic vibrant color themes per category.

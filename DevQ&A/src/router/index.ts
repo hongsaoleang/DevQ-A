@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import CategoriesView from '../views/CategoriesView.vue'
 import CategoryQuestionsView from '../views/CategoryQuestionsView.vue'
 import StudyView from '../views/StudyView.vue'
+import LessonsView from '../views/LessonsView.vue'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -16,6 +17,11 @@ const router = createRouter({
       name: 'category-questions',
       component: CategoryQuestionsView,
       props: true
+    },
+    {
+      path: '/lessons',
+      name: 'lessons',
+      component: LessonsView
     },
     {
       path: '/study',

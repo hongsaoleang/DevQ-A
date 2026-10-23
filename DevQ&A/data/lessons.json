@@ -1,0 +1,83 @@
+[
+  {
+    "id": "lesson_linux_basics",
+    "name": "Linux Terminal Navigation",
+    "category": "Backend",
+    "whyWeUseIt": "Terminal navigation commands allow you to move between directories, inspect files, and manage projects directly from the command line without needing a graphical interface. We use them together to explore the filesystem, check where we are, and manage files quickly.",
+    "createdAt": 1774000000000,
+    "commands": [
+      {
+        "id": "cmd_1",
+        "command": "pwd",
+        "whatItDoes": "Show current directory",
+        "practice": "pwd",
+        "notes": "Print Working Directory: tells you your exact full path in the filesystem"
+      },
+      {
+        "id": "cmd_2",
+        "command": "ls -la",
+        "whatItDoes": "List all files and hidden files with permissions and size details",
+        "practice": "ls -la",
+        "notes": "Combines -l (long format) and -a (all, including dotfiles)"
+      },
+      {
+        "id": "cmd_3",
+        "command": "cd ..",
+        "whatItDoes": "Move up one directory level to the parent folder",
+        "practice": "cd ..",
+        "notes": "Two dots (..) represent the parent directory"
+      },
+      {
+        "id": "cmd_4",
+        "command": "mkdir practice",
+        "whatItDoes": "Create a new directory named 'practice'",
+        "practice": "mkdir practice",
+        "notes": "Make Directory"
+      },
+      {
+        "id": "cmd_5",
+        "command": "touch index.html",
+        "whatItDoes": "Create a new empty file named index.html",
+        "practice": "touch index.html",
+        "notes": "Also updates the file timestamp if it already exists"
+      }
+    ]
+  },
+  {
+    "id": "lesson_git_basics",
+    "name": "Git Workflow Fundamentals",
+    "category": "Web Development",
+    "whyWeUseIt": "Git is the industry standard for tracking code changes, collaborating with teammates, and reverting bugs. We use these core commands consecutively in our daily development loop to stage, commit, and sync code to remote repositories.",
+    "createdAt": 1774050000000,
+    "commands": [
+      {
+        "id": "git_1",
+        "command": "git status",
+        "whatItDoes": "Check current branch, modified files, and staged changes",
+        "practice": "git status",
+        "notes": "Run this frequently to see the state of your working tree"
+      },
+      {
+        "id": "git_2",
+        "command": "git add .",
+        "whatItDoes": "Stage all current modified and newly created files",
+        "practice": "git add .",
+        "notes": "Prepares changes to be captured in the next commit snapshot"
+      },
+      {
+        "id": "git_3",
+        "command": "git commit -m \"update\"",
+        "whatItDoes": "Commit staged changes with a descriptive message",
+        "practice": "git commit -m \"update\"",
+        "notes": "Saves your snapshot permanently to local Git history"
+      },
+      {
+        "id": "git_4",
+        "command": "git push origin main",
+        "whatItDoes": "Upload local commits to the remote main branch",
+        "practice": "git push origin main",
+        "notes": "Syncs your work with GitHub / GitLab"
+      }
+    ]
+  }
+]
