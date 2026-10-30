@@ -21,6 +21,11 @@ const availableLessons = computed(() => {
   return getLessonsForCategory(selectedCategory.value)
 })
 
+function extractQuestionNumber(str: string): number {
+  const match = str.trim().match(/^(\d+)/)
+  return match ? parseInt(match[1], 10) : Number.MAX_SAFE_INTEGER
+}
+
 function rebuildStudyList() {
   const filtered = items.value.filter((item) => {
     if (selectedCategory.value && item.category.trim().toLowerCase() !== selectedCategory.value.trim().toLowerCase()) {
@@ -31,7 +36,12 @@ function rebuildStudyList() {
     }
     return true
   })
-  studyItems.value = [...filtered]
+  studyItems.value = [...filtered].sort((a, b) => {
+    const numA = extractQuestionNumber(a.question)
+    const numB = extractQuestionNumber(b.question)
+    if (numA !== numB) return numA - numB
+    return a.createdAt - b.createdAt
+  })
   currentIndex.value = 0
   isFlipped.value = false
 }

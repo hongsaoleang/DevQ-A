@@ -18,7 +18,12 @@ const searchQuery = ref('')
 const selectedCategory = ref('')
 const selectedLesson = ref('')
 const favoritesOnly = ref(false)
-const sortBy = ref<'newest' | 'oldest' | 'alpha'>('newest')
+const sortBy = ref<'numberAsc' | 'numberDesc' | 'newest' | 'oldest' | 'alpha'>('numberAsc')
+
+function extractQuestionNumber(str: string): number {
+  const match = str.trim().match(/^(\d+)/)
+  return match ? parseInt(match[1], 10) : Number.MAX_SAFE_INTEGER
+}
 const forceExpandAll = ref(false)
 const savedDefaultCategory = ref('')
 
@@ -126,9 +131,21 @@ const filteredItems = computed(() => {
       return true
     })
     .sort((a, b) => {
+      if (sortBy.value === 'numberAsc') {
+        const numA = extractQuestionNumber(a.question)
+        const numB = extractQuestionNumber(b.question)
+        if (numA !== numB) return numA - numB
+        return a.createdAt - b.createdAt
+      }
+      if (sortBy.value === 'numberDesc') {
+        const numA = extractQuestionNumber(a.question)
+        const numB = extractQuestionNumber(b.question)
+        if (numA !== numB) return numB - numA
+        return b.createdAt - a.createdAt
+      }
       if (sortBy.value === 'newest') return b.createdAt - a.createdAt
       if (sortBy.value === 'oldest') return a.createdAt - b.createdAt
-      if (sortBy.value === 'alpha') return a.question.localeCompare(b.question)
+      if (sortBy.value === 'alpha') return a.question.localeCompare(b.question, undefined, { numeric: true })
       return 0
     })
 })
@@ -362,10 +379,12 @@ const currentCategoryTheme = computed(() => {
             </button>
 
             <select v-model="sortBy" class="sort-select" aria-label="Sort questions">
-              <option value="newest">Newest First</option>
-              <option value="oldest">Oldest First</option>
-              <option value="alpha">A-Z</option>
-            </select>
+            <option value="numberAsc">Number (1 → 180 ASC)</option>
+            <option value="numberDesc">Number (180 → 1 DESC)</option>
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="alpha">A-Z</option>
+          </select>
           </div>
         </div>
       </div>

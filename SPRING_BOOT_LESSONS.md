@@ -51,50 +51,9 @@ The main features of Spring Boot include:
 1. Auto-configuration.
 2. Starter dependencies.
 3. Embedded servers.
-
-#### 🇰🇭 ភាសាខ្មែរ (Khmer)
-
-
-
----
-
-### 4. Production-ready features through Actuator.
-
-#### 🇺🇸 English
-
-
-
-#### 🇰🇭 ភាសាខ្មែរ (Khmer)
-
-
-
----
-
-### 5. Externalized configuration.
-
-#### 🇺🇸 English
-
-
-
-#### 🇰🇭 ភាសាខ្មែរ (Khmer)
-
-
-
----
-
-### 6. Easy integration with databases and other technologies.
-
-#### 🇺🇸 English
-
-The advantages of Spring Boot are faster development, less configuration, easy dependency management, embedded servers, and easy deployment. It also supports building REST APIs and microservices.
-
-
-Spring is a Java framework that provides features such as Dependency Injection, Spring MVC, and transaction management. Spring Boot is built on top of Spring and simplifies development by providing auto-configuration, starter dependencies, and embedded servers.
-
-
-Spring Initializr is a web-based tool that helps developers generate a Spring Boot project. We can select the project type, programming language, Spring Boot version, and required dependencies.
-
-Website: https://start.spring.io
+4. Production-ready features through Actuator.
+5. Externalized configuration.
+6. Easy integration with databases and other technologies.
 
 #### 🇰🇭 ភាសាខ្មែរ (Khmer)
 
@@ -105,15 +64,44 @@ Website: https://start.spring.io
 4. Actuator – ជួយត្រួតពិនិត្យកម្មវិធី។
 5. Externalized configuration – អាចកំណត់ Configuration ពីខាងក្រៅ។
 6. ងាយស្រួលភ្ជាប់ជាមួយ Database និង Technology ផ្សេងៗ។
-4. What are the advantages of Spring Boot?
+
+---
+
+### 4. What are the advantages of Spring Boot?
+
+#### 🇺🇸 English
+
+The advantages of Spring Boot are faster development, less configuration, easy dependency management, embedded servers, and easy deployment. It also supports building REST APIs and microservices.
+
+#### 🇰🇭 ភាសាខ្មែរ (Khmer)
 
 អត្ថប្រយោជន៍របស់ Spring Boot គឺជួយឱ្យការអភិវឌ្ឍកម្មវិធីលឿនជាងមុន កាត់បន្ថយការកំណត់ Configuration ងាយស្រួលគ្រប់គ្រង Dependencies មាន Embedded Server និងងាយស្រួល Deploy។ វាក៏គាំទ្រការបង្កើត REST API និង Microservices ផងដែរ។
-5. What is the difference between Spring and Spring Boot?
+
+---
+
+### 5. What is the difference between Spring and Spring Boot?
+
+#### 🇺🇸 English
+
+Spring is a Java framework that provides features such as Dependency Injection, Spring MVC, and transaction management. Spring Boot is built on top of Spring and simplifies development by providing auto-configuration, starter dependencies, and embedded servers.
+
+#### 🇰🇭 ភាសាខ្មែរ (Khmer)
 
 Spring គឺជា Java Framework ដែលផ្តល់មុខងារដូចជា Dependency Injection, Spring MVC និង Transaction Management។
 
 Spring Boot ត្រូវបានបង្កើតឡើងដោយផ្អែកលើ Spring ហើយជួយសម្រួលការអភិវឌ្ឍដោយមាន Auto-configuration, Starter Dependencies និង Embedded Server។
-6. What is Spring Initializr?
+
+---
+
+### 6. What is Spring Initializr?
+
+#### 🇺🇸 English
+
+Spring Initializr is a web-based tool that helps developers generate a Spring Boot project. We can select the project type, programming language, Spring Boot version, and required dependencies.
+
+Website: https://start.spring.io
+
+#### 🇰🇭 ភាសាខ្មែរ (Khmer)
 
 Spring Initializr គឺជា Tool តាមរយៈ Website ដែលជួយ Developer បង្កើត Spring Boot Project។ យើងអាចជ្រើសរើស Project Type, Programming Language, Spring Boot Version និង Dependencies ដែលត្រូវការ។
 
